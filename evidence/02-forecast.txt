@@ -1,0 +1,104 @@
+$ python scripts/forecast_model.py --dataset alibaba --current-replicas 20
+dataset alibaba: 2240 usable points; train 1951 (2018-01-01 00:00:00 .. 2018-01-07 23:50:00), test 289 (2018-01-07 23:55:00 .. 2018-01-08 23:55:00)
+validation day (2018-01-06 23:50:00 .. 2018-01-07 23:50:00): MAE weekly_off=10.207, weekly_on=5.946 -> weekly=on
+
+-- weekly_seasonality=False --
+   n                        289
+   mae                      6.162
+   mape                     14.541
+   rmse                     7.650
+   bias                     2.374
+   under_forecast_pct       35.294
+   interval_coverage_pct    63.322
+   mean_interval_width      15.265
+   above_upper_pct          8.304
+
+-- weekly_seasonality=True --
+   n                        289
+   mae                      6.333
+   mape                     14.979
+   rmse                     7.809
+   bias                     2.505
+   under_forecast_pct       34.602
+   interval_coverage_pct    63.668
+   mean_interval_width      15.299
+   above_upper_pct          8.304
+
+using weekly_seasonality=on for the figures and the recommendation
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\cpu_forecast.png
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\cpu_forecast_components.png
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\cpu_eval.png
+
+components: {
+  "daily_amplitude_pp": 26.178233988794116,
+  "daily_peak_hour": 7,
+  "daily_trough_hour": 21,
+  "weekly_amplitude_pp": 10.432120678978704,
+  "trend_change_pp": 13.68256345820592,
+  "trend_start_pp": 33.119793374075755,
+  "trend_end_pp": 46.802356832281674
+}
+
+--- Autoscaling recommendation ---
+Current replicas:                 20
+Max predicted CPU (30 min):     49.8% (upper 80% CI)
+Last observed CPU:                41.6%
+Target CPU per replica:           60%
+Recommended replicas:             17 (driver: forecast)
+DECISION: Scale DOWN by 3 replica(s)
+
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\results\forecast_alibaba.json
+[exit 0, 3.1s]
+
+$ python scripts/forecast_model.py --dataset synthetic --current-replicas 20
+dataset synthetic: 2016 usable points; train 1727 (2025-10-01 00:00:00 .. 2025-10-06 23:50:00), test 289 (2025-10-06 23:55:00 .. 2025-10-07 23:55:00)
+validation day (2025-10-05 23:50:00 .. 2025-10-06 23:50:00): MAE weekly_off=5.057, weekly_on=3.207 -> weekly=on
+
+-- weekly_seasonality=False --
+   n                        289
+   mae                      4.822
+   mape                     16.525
+   rmse                     5.712
+   bias                     -4.437
+   under_forecast_pct       89.965
+   interval_coverage_pct    42.561
+   mean_interval_width      7.826
+   above_upper_pct          56.401
+
+-- weekly_seasonality=True --
+   n                        289
+   mae                      2.449
+   mape                     8.700
+   rmse                     3.126
+   bias                     0.986
+   under_forecast_pct       35.640
+   interval_coverage_pct    75.779
+   mean_interval_width      7.536
+   above_upper_pct          6.228
+
+using weekly_seasonality=on for the figures and the recommendation
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\cpu_forecast_synthetic.png
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\cpu_forecast_components_synthetic.png
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\cpu_eval_synthetic.png
+
+components: {
+  "daily_amplitude_pp": 39.97408460521234,
+  "daily_peak_hour": 6,
+  "daily_trough_hour": 18,
+  "weekly_amplitude_pp": 20.77186044715493,
+  "trend_change_pp": 12.65956438612045,
+  "trend_start_pp": 28.99922510861066,
+  "trend_end_pp": 41.65878949473111
+}
+
+--- Autoscaling recommendation ---
+Current replicas:                 20
+Max predicted CPU (30 min):     48.1% (upper 80% CI)
+Last observed CPU:                39.0%
+Target CPU per replica:           60%
+Recommended replicas:             17 (driver: forecast)
+DECISION: Scale DOWN by 3 replica(s)
+
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\results\forecast_synthetic.json
+[exit 0, 3.0s]
+

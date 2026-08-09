@@ -1,0 +1,557 @@
+{
+  "dataset": "alibaba",
+  "horizon_min": 30,
+  "refit_min": 30,
+  "origins": 48,
+  "methods": {
+    "arima_212": {
+      "mae": 4.644916203322865,
+      "mape": 10.418429240320577,
+      "rmse": 6.0625216477176505,
+      "bias": -0.7632074490560607,
+      "n": 288
+    },
+    "moving_avg_30m": {
+      "mae": 4.919878089385034,
+      "mape": 11.11776542167271,
+      "rmse": 6.32205896196374,
+      "bias": -0.24049710302190558,
+      "n": 288
+    },
+    "persistence": {
+      "mae": 5.410656835136626,
+      "mape": 12.021513304544097,
+      "rmse": 7.39448579339993,
+      "bias": -0.9381316731505718,
+      "n": 288
+    },
+    "prophet": {
+      "mae": 5.696643082065872,
+      "mape": 12.727692641412114,
+      "rmse": 7.315413658063323,
+      "bias": -2.1065626418771237,
+      "n": 288
+    },
+    "prophet_level_adj": {
+      "mae": 4.897589105987819,
+      "mape": 11.07226995765886,
+      "rmse": 6.163892855453819,
+      "bias": -0.30755204672896397,
+      "n": 288
+    },
+    "seasonal_naive_24h": {
+      "mae": 7.3125035974225625,
+      "mape": 16.334649813081004,
+      "rmse": 9.417636790798005,
+      "bias": -1.7402316757174976,
+      "n": 288
+    }
+  },
+  "prophet_mae_by_horizon": {
+    "5": 6.160770927381517,
+    "10": 5.849039368542971,
+    "15": 4.921817472754622,
+    "20": 6.282606344632335,
+    "25": 5.1637689432839755,
+    "30": 5.801855435799812
+  },
+  "decision_coverage": {
+    "prophet yhat_upper": {
+      "covered_pct": 60.416666666666664,
+      "mean_shortfall_pp": 6.876219075252675,
+      "worst_shortfall_pp": 21.98354911790834
+    },
+    "level-adjusted upper": {
+      "covered_pct": 70.83333333333334,
+      "mean_shortfall_pp": 5.256866250427373,
+      "worst_shortfall_pp": 26.817420763298102
+    },
+    "reactive floor (max of upper, now)": {
+      "covered_pct": 72.91666666666666,
+      "mean_shortfall_pp": 5.136943229743589,
+      "worst_shortfall_pp": 26.817420763298102
+    }
+  },
+  "decisions": [
+    {
+      "origin": "2018-01-07 23:55:00",
+      "actual_max": 38.99696969696969,
+      "prophet_upper_max": 45.603376681972556,
+      "prophet_point_max": 37.96247203094437,
+      "level_adj_upper_max": 38.68719498029553,
+      "level_offset": -6.916181701677026,
+      "observed_now": 25.549242424242426,
+      "persistence_max": 25.549242424242426
+    },
+    {
+      "origin": "2018-01-08 00:25:00",
+      "actual_max": 33.07424242424242,
+      "prophet_upper_max": 46.28929735037956,
+      "prophet_point_max": 38.099767348793854,
+      "level_adj_upper_max": 43.19777002567282,
+      "level_offset": -3.0915273247067456,
+      "observed_now": 34.53939393939394,
+      "persistence_max": 34.53939393939394
+    },
+    {
+      "origin": "2018-01-08 00:55:00",
+      "actual_max": 39.46035353535354,
+      "prophet_upper_max": 44.74501655933015,
+      "prophet_point_max": 36.546242857604476,
+      "level_adj_upper_max": 38.39311320718537,
+      "level_offset": -6.35190335214478,
+      "observed_now": 26.16774891774892,
+      "persistence_max": 26.16774891774892
+    },
+    {
+      "origin": "2018-01-08 01:25:00",
+      "actual_max": 45.65270562770563,
+      "prophet_upper_max": 46.02879727223019,
+      "prophet_point_max": 38.34027912337894,
+      "level_adj_upper_max": 44.809558261028606,
+      "level_offset": -1.219239011201586,
+      "observed_now": 36.33030303030302,
+      "persistence_max": 36.33030303030302
+    },
+    {
+      "origin": "2018-01-08 01:55:00",
+      "actual_max": 46.58201058201058,
+      "prophet_upper_max": 47.04784267731924,
+      "prophet_point_max": 39.053763625864704,
+      "level_adj_upper_max": 47.058840588880955,
+      "level_offset": 0.010997911561717663,
+      "observed_now": 45.65270562770563,
+      "persistence_max": 45.65270562770563
+    },
+    {
+      "origin": "2018-01-08 02:25:00",
+      "actual_max": 38.21363636363637,
+      "prophet_upper_max": 47.813570722945585,
+      "prophet_point_max": 40.41199067532607,
+      "level_adj_upper_max": 46.6625068796624,
+      "level_offset": -1.1510638432831808,
+      "observed_now": 40.4378787878788,
+      "persistence_max": 40.4378787878788
+    },
+    {
+      "origin": "2018-01-08 02:55:00",
+      "actual_max": 42.99047619047619,
+      "prophet_upper_max": 49.22892966348514,
+      "prophet_point_max": 41.88214571351402,
+      "level_adj_upper_max": 43.96263488149972,
+      "level_offset": -5.26629478198542,
+      "observed_now": 37.25000000000001,
+      "persistence_max": 37.25000000000001
+    },
+    {
+      "origin": "2018-01-08 03:25:00",
+      "actual_max": 46.66961451247165,
+      "prophet_upper_max": 50.11220866361589,
+      "prophet_point_max": 42.145024817106076,
+      "level_adj_upper_max": 47.147024450571585,
+      "level_offset": -2.965184213044306,
+      "observed_now": 31.854081632653056,
+      "persistence_max": 31.854081632653056
+    },
+    {
+      "origin": "2018-01-08 03:55:00",
+      "actual_max": 49.18168934240363,
+      "prophet_upper_max": 54.42338126124654,
+      "prophet_point_max": 46.84692332858002,
+      "level_adj_upper_max": 54.3196396069646,
+      "level_offset": -0.10374165428194122,
+      "observed_now": 43.62460317460318,
+      "persistence_max": 43.62460317460318
+    },
+    {
+      "origin": "2018-01-08 04:25:00",
+      "actual_max": 55.08276643990929,
+      "prophet_upper_max": 57.09392761428572,
+      "prophet_point_max": 49.94154822150465,
+      "level_adj_upper_max": 56.26288160404383,
+      "level_offset": -0.8310460102418903,
+      "observed_now": 49.16746031746032,
+      "persistence_max": 49.16746031746032
+    },
+    {
+      "origin": "2018-01-08 04:55:00",
+      "actual_max": 53.38900226757369,
+      "prophet_upper_max": 59.09794214250077,
+      "prophet_point_max": 51.66090566662792,
+      "level_adj_upper_max": 57.24994071734808,
+      "level_offset": -1.8480014251526846,
+      "observed_now": 41.90833333333333,
+      "persistence_max": 41.90833333333333
+    },
+    {
+      "origin": "2018-01-08 05:25:00",
+      "actual_max": 82.65510204081633,
+      "prophet_upper_max": 60.67155292290799,
+      "prophet_point_max": 53.229436874336734,
+      "level_adj_upper_max": 55.83768127751823,
+      "level_offset": -4.8338716453897606,
+      "observed_now": 42.875541125541126,
+      "persistence_max": 42.875541125541126
+    },
+    {
+      "origin": "2018-01-08 05:55:00",
+      "actual_max": 78.32234848484849,
+      "prophet_upper_max": 64.84724964878542,
+      "prophet_point_max": 56.88025405304031,
+      "level_adj_upper_max": 71.50648296553194,
+      "level_offset": 6.65923331674652,
+      "observed_now": 82.65510204081633,
+      "persistence_max": 82.65510204081633
+    },
+    {
+      "origin": "2018-01-08 06:25:00",
+      "actual_max": 62.43968253968254,
+      "prophet_upper_max": 66.80985167601226,
+      "prophet_point_max": 58.89016786250026,
+      "level_adj_upper_max": 72.57616034905152,
+      "level_offset": 5.766308673039256,
+      "observed_now": 57.88961038961038,
+      "persistence_max": 57.88961038961038
+    },
+    {
+      "origin": "2018-01-08 06:55:00",
+      "actual_max": 63.5225,
+      "prophet_upper_max": 67.19959534203463,
+      "prophet_point_max": 58.97819290227105,
+      "level_adj_upper_max": 67.0468024505982,
+      "level_offset": -0.15279289143643382,
+      "observed_now": 57.04625850340136,
+      "persistence_max": 57.04625850340136
+    },
+    {
+      "origin": "2018-01-08 07:25:00",
+      "actual_max": 59.44444444444445,
+      "prophet_upper_max": 66.2838504450592,
+      "prophet_point_max": 58.65407711295326,
+      "level_adj_upper_max": 67.60614020379097,
+      "level_offset": 1.3222897587317728,
+      "observed_now": 63.5225,
+      "persistence_max": 63.5225
+    },
+    {
+      "origin": "2018-01-08 07:55:00",
+      "actual_max": 58.64469696969698,
+      "prophet_upper_max": 64.82419620504305,
+      "prophet_point_max": 57.212727421029385,
+      "level_adj_upper_max": 60.112937931534475,
+      "level_offset": -4.711258273508577,
+      "observed_now": 46.22521645021645,
+      "persistence_max": 46.22521645021645
+    },
+    {
+      "origin": "2018-01-08 08:25:00",
+      "actual_max": 43.82727272727273,
+      "prophet_upper_max": 60.72115432583906,
+      "prophet_point_max": 53.385819906854174,
+      "level_adj_upper_max": 55.943605281708386,
+      "level_offset": -4.777549044130674,
+      "observed_now": 46.41515151515152,
+      "persistence_max": 46.41515151515152
+    },
+    {
+      "origin": "2018-01-08 08:55:00",
+      "actual_max": 57.45863095238095,
+      "prophet_upper_max": 57.617074928930954,
+      "prophet_point_max": 49.894291657651465,
+      "level_adj_upper_max": 48.010592315619704,
+      "level_offset": -9.606482613311254,
+      "observed_now": 39.79058441558441,
+      "persistence_max": 39.79058441558441
+    },
+    {
+      "origin": "2018-01-08 09:25:00",
+      "actual_max": 46.61839826839826,
+      "prophet_upper_max": 55.5933123084803,
+      "prophet_point_max": 47.73206838153729,
+      "level_adj_upper_max": 58.24307422398244,
+      "level_offset": 2.649761915502142,
+      "observed_now": 51.351587301587294,
+      "persistence_max": 51.351587301587294
+    },
+    {
+      "origin": "2018-01-08 09:55:00",
+      "actual_max": 46.117045454545455,
+      "prophet_upper_max": 53.189191456485865,
+      "prophet_point_max": 45.56436531438004,
+      "level_adj_upper_max": 48.90858141357405,
+      "level_offset": -4.2806100429118175,
+      "observed_now": 37.12900432900433,
+      "persistence_max": 37.12900432900433
+    },
+    {
+      "origin": "2018-01-08 10:25:00",
+      "actual_max": 52.070833333333326,
+      "prophet_upper_max": 51.82141240423347,
+      "prophet_point_max": 44.32889194182502,
+      "level_adj_upper_max": 50.784017200614905,
+      "level_offset": -1.037395203618568,
+      "observed_now": 44.86374458874459,
+      "persistence_max": 44.86374458874459
+    },
+    {
+      "origin": "2018-01-08 10:55:00",
+      "actual_max": 56.62575757575758,
+      "prophet_upper_max": 50.635135177324635,
+      "prophet_point_max": 43.28531287208307,
+      "level_adj_upper_max": 53.37314844001497,
+      "level_offset": 2.738013262690336,
+      "observed_now": 52.070833333333326,
+      "persistence_max": 52.070833333333326
+    },
+    {
+      "origin": "2018-01-08 11:25:00",
+      "actual_max": 55.38458333333334,
+      "prophet_upper_max": 52.553265160169104,
+      "prophet_point_max": 44.70761275893942,
+      "level_adj_upper_max": 59.42429762634202,
+      "level_offset": 6.871032466172916,
+      "observed_now": 49.38333333333333,
+      "persistence_max": 49.38333333333333
+    },
+    {
+      "origin": "2018-01-08 11:55:00",
+      "actual_max": 50.96515151515152,
+      "prophet_upper_max": 52.287243003851444,
+      "prophet_point_max": 44.26398474076722,
+      "level_adj_upper_max": 57.350476197993984,
+      "level_offset": 5.063233194142537,
+      "observed_now": 45.23625541125541,
+      "persistence_max": 45.23625541125541
+    },
+    {
+      "origin": "2018-01-08 12:25:00",
+      "actual_max": 43.29498746867168,
+      "prophet_upper_max": 52.44540826168476,
+      "prophet_point_max": 44.802334459664735,
+      "level_adj_upper_max": 52.52631837883461,
+      "level_offset": 0.08091011714985068,
+      "observed_now": 42.66297619047619,
+      "persistence_max": 42.66297619047619
+    },
+    {
+      "origin": "2018-01-08 12:55:00",
+      "actual_max": 51.64473684210526,
+      "prophet_upper_max": 51.03925758570908,
+      "prophet_point_max": 43.25942034167843,
+      "level_adj_upper_max": 48.05151457669536,
+      "level_offset": -2.9877430090137183,
+      "observed_now": 39.311796536796535,
+      "persistence_max": 39.311796536796535
+    },
+    {
+      "origin": "2018-01-08 13:25:00",
+      "actual_max": 45.06111111111111,
+      "prophet_upper_max": 49.326603827637214,
+      "prophet_point_max": 42.01677341430008,
+      "level_adj_upper_max": 49.565709814236335,
+      "level_offset": 0.23910598659912333,
+      "observed_now": 39.20098039215686,
+      "persistence_max": 39.20098039215686
+    },
+    {
+      "origin": "2018-01-08 13:55:00",
+      "actual_max": 45.93514739229025,
+      "prophet_upper_max": 48.14765187951395,
+      "prophet_point_max": 40.760036937035096,
+      "level_adj_upper_max": 47.89877747666594,
+      "level_offset": -0.24887440284800752,
+      "observed_now": 39.24209956709957,
+      "persistence_max": 39.24209956709957
+    },
+    {
+      "origin": "2018-01-08 14:25:00",
+      "actual_max": 49.63414502164503,
+      "prophet_upper_max": 46.3518301429095,
+      "prophet_point_max": 38.96202243561811,
+      "level_adj_upper_max": 48.508372185378846,
+      "level_offset": 2.156542042469345,
+      "observed_now": 41.29393939393939,
+      "persistence_max": 41.29393939393939
+    },
+    {
+      "origin": "2018-01-08 14:55:00",
+      "actual_max": 50.89166666666666,
+      "prophet_upper_max": 46.64595613754899,
+      "prophet_point_max": 38.60010708834123,
+      "level_adj_upper_max": 51.407512148459105,
+      "level_offset": 4.761556010910115,
+      "observed_now": 49.63414502164503,
+      "persistence_max": 49.63414502164503
+    },
+    {
+      "origin": "2018-01-08 15:25:00",
+      "actual_max": 41.84472222222222,
+      "prophet_upper_max": 44.48517160798167,
+      "prophet_point_max": 37.056124674934026,
+      "level_adj_upper_max": 49.628406393120876,
+      "level_offset": 5.1432347851392075,
+      "observed_now": 36.51587301587301,
+      "persistence_max": 36.51587301587301
+    },
+    {
+      "origin": "2018-01-08 15:55:00",
+      "actual_max": 47.04307359307359,
+      "prophet_upper_max": 43.47373956039461,
+      "prophet_point_max": 35.68210632697497,
+      "level_adj_upper_max": 42.57520863938028,
+      "level_offset": -0.8985309210143377,
+      "observed_now": 35.618290043290045,
+      "persistence_max": 35.618290043290045
+    },
+    {
+      "origin": "2018-01-08 16:25:00",
+      "actual_max": 40.84729437229437,
+      "prophet_upper_max": 43.34139844990037,
+      "prophet_point_max": 35.254911968974916,
+      "level_adj_upper_max": 47.03313808953834,
+      "level_offset": 3.691739639637975,
+      "observed_now": 34.150000000000006,
+      "persistence_max": 34.150000000000006
+    },
+    {
+      "origin": "2018-01-08 16:55:00",
+      "actual_max": 49.63203463203463,
+      "prophet_upper_max": 42.72726266983961,
+      "prophet_point_max": 34.904357655001036,
+      "level_adj_upper_max": 43.94436129804802,
+      "level_offset": 1.217098628208408,
+      "observed_now": 40.84729437229437,
+      "persistence_max": 40.84729437229437
+    },
+    {
+      "origin": "2018-01-08 17:25:00",
+      "actual_max": 42.48787878787879,
+      "prophet_upper_max": 43.79630390022863,
+      "prophet_point_max": 35.88504730122389,
+      "level_adj_upper_max": 50.86831436262719,
+      "level_offset": 7.07201046239856,
+      "observed_now": 40.20757575757575,
+      "persistence_max": 40.20757575757575
+    },
+    {
+      "origin": "2018-01-08 17:55:00",
+      "actual_max": 50.006818181818176,
+      "prophet_upper_max": 44.29076728032771,
+      "prophet_point_max": 36.13356598571243,
+      "level_adj_upper_max": 48.37600453544396,
+      "level_offset": 4.085237255116252,
+      "observed_now": 41.01731601731601,
+      "persistence_max": 41.01731601731601
+    },
+    {
+      "origin": "2018-01-08 18:25:00",
+      "actual_max": 62.02651515151516,
+      "prophet_upper_max": 44.97914012074007,
+      "prophet_point_max": 36.87861024415997,
+      "level_adj_upper_max": 54.77664728061846,
+      "level_offset": 9.79750715987839,
+      "observed_now": 50.006818181818176,
+      "persistence_max": 50.006818181818176
+    },
+    {
+      "origin": "2018-01-08 18:55:00",
+      "actual_max": 53.04637188208616,
+      "prophet_upper_max": 45.408479635044706,
+      "prophet_point_max": 37.60647957089844,
+      "level_adj_upper_max": 58.19200778131177,
+      "level_offset": 12.783528146267068,
+      "observed_now": 48.98030303030303,
+      "persistence_max": 48.98030303030303
+    },
+    {
+      "origin": "2018-01-08 19:25:00",
+      "actual_max": 52.17916666666665,
+      "prophet_upper_max": 46.26934594795216,
+      "prophet_point_max": 37.853911729395136,
+      "level_adj_upper_max": 55.39021944813152,
+      "level_offset": 9.120873500179357,
+      "observed_now": 40.029545454545456,
+      "persistence_max": 40.029545454545456
+    },
+    {
+      "origin": "2018-01-08 19:55:00",
+      "actual_max": 44.44015151515152,
+      "prophet_upper_max": 45.381311309217494,
+      "prophet_point_max": 37.62350311262568,
+      "level_adj_upper_max": 53.49371493115535,
+      "level_offset": 8.11240362193786,
+      "observed_now": 44.68253968253968,
+      "persistence_max": 44.68253968253968
+    },
+    {
+      "origin": "2018-01-08 20:25:00",
+      "actual_max": 48.22348484848485,
+      "prophet_upper_max": 45.16251223333828,
+      "prophet_point_max": 37.098620095217974,
+      "level_adj_upper_max": 49.37283764044666,
+      "level_offset": 4.2103254071083756,
+      "observed_now": 39.11825396825397,
+      "persistence_max": 39.11825396825397
+    },
+    {
+      "origin": "2018-01-08 20:55:00",
+      "actual_max": 51.15075757575758,
+      "prophet_upper_max": 44.95222108651862,
+      "prophet_point_max": 36.771810454659416,
+      "level_adj_upper_max": 52.22860153880901,
+      "level_offset": 7.276380452290387,
+      "observed_now": 48.22348484848485,
+      "persistence_max": 48.22348484848485
+    },
+    {
+      "origin": "2018-01-08 21:25:00",
+      "actual_max": 53.68257575757576,
+      "prophet_upper_max": 45.198661499852086,
+      "prophet_point_max": 37.048908732462216,
+      "level_adj_upper_max": 54.34839814105176,
+      "level_offset": 9.149736641199672,
+      "observed_now": 44.63474025974026,
+      "persistence_max": 44.63474025974026
+    },
+    {
+      "origin": "2018-01-08 21:55:00",
+      "actual_max": 57.840151515151504,
+      "prophet_upper_max": 46.66377829685435,
+      "prophet_point_max": 38.18970941738112,
+      "level_adj_upper_max": 58.54690837944937,
+      "level_offset": 11.883130082595018,
+      "observed_now": 46.015,
+      "persistence_max": 46.015
+    },
+    {
+      "origin": "2018-01-08 22:25:00",
+      "actual_max": 46.5047619047619,
+      "prophet_upper_max": 47.91581582737161,
+      "prophet_point_max": 39.912806566585715,
+      "level_adj_upper_max": 57.58645812788287,
+      "level_offset": 9.67064230051126,
+      "observed_now": 41.35497835497835,
+      "persistence_max": 41.35497835497835
+    },
+    {
+      "origin": "2018-01-08 22:55:00",
+      "actual_max": 51.66269841269842,
+      "prophet_upper_max": 49.38309157511729,
+      "prophet_point_max": 41.28480613146684,
+      "level_adj_upper_max": 52.96631272590241,
+      "level_offset": 3.5832211507851213,
+      "observed_now": 44.63371212121212,
+      "persistence_max": 44.63371212121212
+    },
+    {
+      "origin": "2018-01-08 23:25:00",
+      "actual_max": 42.64242424242424,
+      "prophet_upper_max": 50.9274057775387,
+      "prophet_point_max": 42.5054655916624,
+      "level_adj_upper_max": 55.44315182058455,
+      "level_offset": 4.515746043045851,
+      "observed_now": 42.63434343434344,
+      "persistence_max": 42.63434343434344
+    }
+  ]
+}

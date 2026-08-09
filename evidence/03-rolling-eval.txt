@@ -1,0 +1,64 @@
+$ python scripts/rolling_eval.py --dataset alibaba
+alibaba: 49 origins, horizon 30 min (6 steps of 5 min)
+  8/49 origins, 3s
+  16/49 origins, 5s
+  24/49 origins, 8s
+  32/49 origins, 10s
+  40/49 origins, 13s
+  48/49 origins, 16s
+
+scored 1728 (origin, method, step) points in 16s
+
+method                MAE (pp)   MAPE %    RMSE    bias
+arima_212                 4.64     10.4    6.06   -0.76
+prophet_level_adj         4.90     11.1    6.16   -0.31
+moving_avg_30m            4.92     11.1    6.32   -0.24
+persistence               5.41     12.0    7.39   -0.94
+prophet                   5.70     12.7    7.32   -2.11
+seasonal_naive_24h        7.31     16.3    9.42   -1.74
+
+Prophet MAE by horizon (min): 5m=6.16, 10m=5.85, 15m=4.92, 20m=6.28, 25m=5.16, 30m=5.80
+
+Decision-level: does the upper bound cover the actual 30-min peak?
+  prophet yhat_upper                      60% of 48 decisions   mean shortfall 6.9 pp   worst 22.0 pp
+  level-adjusted upper                    71% of 48 decisions   mean shortfall 5.3 pp   worst 26.8 pp
+  reactive floor (max of upper, now)      73% of 48 decisions   mean shortfall 5.1 pp   worst 26.8 pp
+  the day's peak: actual 82.7% vs prophet upper 60.7% at origin 2018-01-08 05:25:00
+
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\results\rolling_alibaba.json
+C:\cv4\lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+C:\cv4\lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+[exit 0, 17.1s]
+
+$ python scripts/rolling_eval.py --dataset synthetic
+synthetic: 49 origins, horizon 30 min (6 steps of 5 min)
+  8/49 origins, 2s
+  16/49 origins, 4s
+  24/49 origins, 7s
+  32/49 origins, 9s
+  40/49 origins, 11s
+  48/49 origins, 14s
+
+scored 1728 (origin, method, step) points in 14s
+
+method                MAE (pp)   MAPE %    RMSE    bias
+prophet                   2.34      8.1    2.97   +0.20
+prophet_level_adj         2.46      8.4    3.09   +0.07
+arima_212                 2.78      9.5    3.50   -0.26
+moving_avg_30m            2.89      9.8    3.62   -0.14
+persistence               3.00      9.9    3.70   -0.35
+seasonal_naive_24h        6.74     22.6    7.76   -6.33
+
+Prophet MAE by horizon (min): 5m=2.71, 10m=2.31, 15m=2.36, 20m=2.53, 25m=2.28, 30m=1.87
+
+Decision-level: does the upper bound cover the actual 30-min peak?
+  prophet yhat_upper                      75% of 48 decisions   mean shortfall 1.6 pp   worst 4.6 pp
+  level-adjusted upper                    67% of 48 decisions   mean shortfall 1.6 pp   worst 5.5 pp
+  reactive floor (max of upper, now)      67% of 48 decisions   mean shortfall 1.6 pp   worst 5.5 pp
+  the day's peak: actual 58.5% vs prophet upper 56.7% at origin 2025-10-07 05:55:00
+
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\results\rolling_synthetic.json
+[exit 0, 15.1s]
+

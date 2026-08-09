@@ -1,0 +1,92 @@
+# Predictive autoscaling with KEDA, driven by the metric scripts/exporter.py
+# publishes. Applied against a cluster with KEDA and Prometheus installed:
+#
+#     kubectl apply -f k8s/keda-scaledobject.yaml
+#
+# Two triggers, deliberately. KEDA takes the MAXIMUM of its triggers, so this is
+# the "predictive with a reactive floor" design from scripts/scaling.py
+# expressed in YAML: the forecast leads, and the live metric is the floor that
+# catches whatever the forecast missed.
+#
+# It also fails safe. If the exporter dies its metric goes stale and Prometheus
+# stops returning it; the forecast trigger contributes nothing and the
+# deployment degrades to ordinary reactive autoscaling rather than to none.
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: checkout-api-predictive
+  namespace: shop
+spec:
+  scaleTargetRef:
+    name: checkout-api
+  minReplicaCount: 2
+  maxReplicaCount: 60
+  pollingInterval: 15          # match the HPA sync period, not the forecast period
+  cooldownPeriod: 300          # same 5 min as the HPA scale-down stabilisation
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 0
+          policies:
+            - type: Percent
+              value: 100
+              periodSeconds: 15
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Percent
+              value: 50
+              periodSeconds: 60
+  triggers:
+    # 1. The forecast: scale for what we expect in the next 30 minutes.
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.monitoring.svc:9090
+        metricName: predicted_cpu_next_30m
+        query: max(predicted_cpu_next_30m{service="checkout-api"})
+        threshold: "60"        # the target CPU % per replica
+    # 2. The floor: whatever is happening right now, forecast or no forecast.
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.monitoring.svc:9090
+        metricName: observed_cpu_current
+        query: max(observed_cpu_current{service="checkout-api"})
+        threshold: "60"
+---
+# Alert on the thing that actually goes wrong in production: the forecaster
+# keeps serving a number long after it stopped being refitted, and nothing
+# looks broken because the metric is still there.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: forecast-staleness
+  namespace: shop
+spec:
+  groups:
+    - name: predictive-autoscaling
+      rules:
+        - alert: ForecastModelStale
+          expr: forecast_model_age_seconds{service="checkout-api"} > 3600
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Forecast model has not been refitted for over an hour"
+            description: >-
+              The predictive trigger is scaling on a stale model. The reactive
+              trigger still protects availability, but the pre-emptive scale-up
+              is no longer trustworthy.
+        - alert: ForecastMissedThePeak
+          expr: >-
+            max_over_time(observed_cpu_current{service="checkout-api"}[30m])
+            > 1.2 * max_over_time(predicted_cpu_next_30m{service="checkout-api"}[30m])
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Observed CPU ran 20% above the forecast for 15 minutes"
+            description: >-
+              Model drift, or a genuinely unforecastable event. Either way the
+              reactive floor is carrying the service and the model needs review.

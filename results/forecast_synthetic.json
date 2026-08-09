@@ -1,0 +1,52 @@
+{
+  "dataset": "synthetic",
+  "n_train": 1727,
+  "n_test": 289,
+  "variants": {
+    "weekly_off": {
+      "n": 289,
+      "mae": 4.822082024488739,
+      "mape": 16.52524327080997,
+      "rmse": 5.712358785768964,
+      "bias": -4.436544276462353,
+      "under_forecast_pct": 89.96539792387543,
+      "interval_coverage_pct": 42.56055363321799,
+      "mean_interval_width": 7.825891580893068,
+      "above_upper_pct": 56.40138408304498
+    },
+    "weekly_on": {
+      "n": 289,
+      "mae": 2.4492248610440606,
+      "mape": 8.700051490390038,
+      "rmse": 3.126468193595949,
+      "bias": 0.9856968903290905,
+      "under_forecast_pct": 35.6401384083045,
+      "interval_coverage_pct": 75.77854671280276,
+      "mean_interval_width": 7.536169554273502,
+      "above_upper_pct": 6.228373702422145
+    }
+  },
+  "validation_mae": {
+    "weekly_off": 5.056955728195587,
+    "weekly_on": 3.2070380358491306
+  },
+  "chosen_variant": "weekly_on",
+  "weekly_selection": "auto",
+  "components": {
+    "daily_amplitude_pp": 39.97408460521234,
+    "daily_peak_hour": 6,
+    "daily_trough_hour": 18,
+    "weekly_amplitude_pp": 20.77186044715493,
+    "trend_change_pp": 12.65956438612045,
+    "trend_start_pp": 28.99922510861066,
+    "trend_end_pp": 41.65878949473111
+  },
+  "recommendation": {
+    "current_replicas": 20,
+    "max_predicted_cpu": 48.11150216026768,
+    "observed_cpu": 39.02605733966109,
+    "recommended_replicas": 17,
+    "driver": "forecast",
+    "action": "Scale DOWN by 3 replica(s)"
+  }
+}

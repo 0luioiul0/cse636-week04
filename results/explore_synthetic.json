@@ -1,0 +1,17 @@
+{
+  "rows": 2016,
+  "span_days": 7.0,
+  "missing_buckets": 0,
+  "gaps": [],
+  "cpu_mean": 35.17,
+  "cpu_std": 14.95,
+  "cpu_min": 5.0,
+  "cpu_max": 69.75,
+  "acf": {
+    "1 h": 0.931,
+    "12 h": -0.745,
+    "24 h": 0.901
+  },
+  "busiest_hour": 6,
+  "quietest_hour": 18
+}

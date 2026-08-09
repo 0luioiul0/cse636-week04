@@ -1,0 +1,10 @@
+$ python scripts/exporter.py --once --port 8031
+serving /metrics on :8031
+predicted_cpu_next_30m = 50.9%   observed = 41.6%   (fit took 0.3s)
+
+--- scraped from our own /metrics ---
+predicted_cpu_next_30m{service="checkout-api"} 50.889962696656845
+observed_cpu_current{service="checkout-api"} 41.62373737373738
+forecast_model_age_seconds{service="checkout-api"} 0.0
+[exit 0, 2.1s]
+

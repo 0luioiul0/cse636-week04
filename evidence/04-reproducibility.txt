@@ -1,0 +1,20 @@
+$ python scripts/reproducibility.py --runs 12
+  run  1: yhat_max 42.938  yhat_upper_max 50.877  -> 17 replicas
+  run  2: yhat_max 42.938  yhat_upper_max 51.229  -> 18 replicas
+  run  3: yhat_max 42.938  yhat_upper_max 50.887  -> 17 replicas
+  run  4: yhat_max 42.938  yhat_upper_max 50.845  -> 17 replicas
+  run  5: yhat_max 42.938  yhat_upper_max 51.476  -> 18 replicas
+  run  6: yhat_max 42.938  yhat_upper_max 50.958  -> 17 replicas
+  run  7: yhat_max 42.938  yhat_upper_max 51.276  -> 18 replicas
+  run  8: yhat_max 42.938  yhat_upper_max 50.746  -> 17 replicas
+  run  9: yhat_max 42.938  yhat_upper_max 51.065  -> 18 replicas
+  run 10: yhat_max 42.938  yhat_upper_max 50.564  -> 17 replicas
+  run 11: yhat_max 42.938  yhat_upper_max 50.742  -> 17 replicas
+  run 12: yhat_max 42.938  yhat_upper_max 50.613  -> 17 replicas
+
+yhat_max       : 42.938 +/- 0.000 (spread 0.000 pp)
+yhat_upper_max : 50.940 +/- 0.265 (spread 0.912 pp)
+replica recommendation across 12 identical runs: [17, 18]
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\results\reproducibility.json
+[exit 0, 4.2s]
+

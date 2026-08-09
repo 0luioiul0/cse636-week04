@@ -1,0 +1,52 @@
+{
+  "dataset": "alibaba",
+  "n_train": 1951,
+  "n_test": 289,
+  "variants": {
+    "weekly_off": {
+      "n": 289,
+      "mae": 6.162461207948672,
+      "mape": 14.540566736376432,
+      "rmse": 7.64979357852289,
+      "bias": 2.374480939765029,
+      "under_forecast_pct": 35.294117647058826,
+      "interval_coverage_pct": 63.32179930795848,
+      "mean_interval_width": 15.264838970336461,
+      "above_upper_pct": 8.304498269896193
+    },
+    "weekly_on": {
+      "n": 289,
+      "mae": 6.332932829037281,
+      "mape": 14.978604104859455,
+      "rmse": 7.808858572959447,
+      "bias": 2.505264599944814,
+      "under_forecast_pct": 34.602076124567475,
+      "interval_coverage_pct": 63.667820069204154,
+      "mean_interval_width": 15.298505351005332,
+      "above_upper_pct": 8.304498269896193
+    }
+  },
+  "validation_mae": {
+    "weekly_off": 10.207117138055946,
+    "weekly_on": 5.946382133537632
+  },
+  "chosen_variant": "weekly_on",
+  "weekly_selection": "auto",
+  "components": {
+    "daily_amplitude_pp": 26.178233988794116,
+    "daily_peak_hour": 7,
+    "daily_trough_hour": 21,
+    "weekly_amplitude_pp": 10.432120678978704,
+    "trend_change_pp": 13.68256345820592,
+    "trend_start_pp": 33.119793374075755,
+    "trend_end_pp": 46.802356832281674
+  },
+  "recommendation": {
+    "current_replicas": 20,
+    "max_predicted_cpu": 49.83995481608355,
+    "observed_cpu": 41.62373737373738,
+    "recommended_replicas": 17,
+    "driver": "forecast",
+    "action": "Scale DOWN by 3 replica(s)"
+  }
+}

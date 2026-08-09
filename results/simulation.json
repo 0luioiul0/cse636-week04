@@ -1,0 +1,127 @@
+{
+  "static": {
+    "scenario": "static",
+    "mean_replicas": 31.0,
+    "min_replicas": 31,
+    "max_replicas": 31,
+    "replica_hours": 5208.086111111111,
+    "cost_usd": 208.32344444444445,
+    "mean_utilisation": 29.003160686628906,
+    "saturated_minutes": 0.0,
+    "hot_minutes": 0.0,
+    "hot_pct_of_time": 0.0,
+    "dropped_load_pct": 0.0,
+    "scaling_actions": 0,
+    "pods_started": 0,
+    "driver_counts": {
+      "forecast": 0,
+      "observed": 0,
+      "clamp": 0
+    }
+  },
+  "reactive": {
+    "scenario": "reactive",
+    "mean_replicas": 16.824986359352526,
+    "min_replicas": 8,
+    "max_replicas": 43,
+    "replica_hours": 2826.6444444444446,
+    "cost_usd": 113.06577777777778,
+    "mean_utilisation": 55.16953135299858,
+    "saturated_minutes": 0.0,
+    "hot_minutes": 0.0,
+    "hot_pct_of_time": 0.0,
+    "dropped_load_pct": 0.0,
+    "scaling_actions": 1979,
+    "pods_started": 2225,
+    "driver_counts": {
+      "forecast": 0,
+      "observed": 0,
+      "clamp": 0
+    }
+  },
+  "predictive": {
+    "scenario": "predictive",
+    "mean_replicas": 18.46907293199517,
+    "min_replicas": 8,
+    "max_replicas": 27,
+    "replica_hours": 3102.8555555555554,
+    "cost_usd": 124.11422222222222,
+    "mean_utilisation": 48.8471173022971,
+    "saturated_minutes": 0.0,
+    "hot_minutes": 0.0,
+    "hot_pct_of_time": 0.0,
+    "dropped_load_pct": 0.0,
+    "scaling_actions": 214,
+    "pods_started": 129,
+    "driver_counts": {
+      "forecast": 2017,
+      "observed": 0,
+      "clamp": 0
+    }
+  },
+  "hybrid": {
+    "scenario": "hybrid",
+    "mean_replicas": 18.69525966832559,
+    "min_replicas": 8,
+    "max_replicas": 30,
+    "replica_hours": 3140.8555555555554,
+    "cost_usd": 125.63422222222222,
+    "mean_utilisation": 48.17534901197091,
+    "saturated_minutes": 0.0,
+    "hot_minutes": 0.0,
+    "hot_pct_of_time": 0.0,
+    "dropped_load_pct": 0.0,
+    "scaling_actions": 337,
+    "pods_started": 237,
+    "driver_counts": {
+      "forecast": 1796,
+      "observed": 221,
+      "clamp": 0
+    }
+  },
+  "hybrid_fast": {
+    "scenario": "hybrid_fast",
+    "mean_replicas": 18.892941584960568,
+    "min_replicas": 8,
+    "max_replicas": 35,
+    "replica_hours": 3174.0666666666666,
+    "cost_usd": 126.96266666666666,
+    "mean_utilisation": 47.70258736788383,
+    "saturated_minutes": 0.0,
+    "hot_minutes": 0.0,
+    "hot_pct_of_time": 0.0,
+    "dropped_load_pct": 0.0,
+    "scaling_actions": 979,
+    "pods_started": 541,
+    "driver_counts": {
+      "forecast": 26998,
+      "observed": 3243,
+      "clamp": 0
+    }
+  },
+  "_flash_crowd": {
+    "factor": 0.0,
+    "at": "2018-01-05 14:00:00",
+    "minutes": 20
+  },
+  "_assumptions": {
+    "days": 7,
+    "target_cpu": 60.0,
+    "price_per_replica_hour": 0.04,
+    "startup_s": 60,
+    "metric_lag_s": 60,
+    "horizon_min": 30,
+    "decision_min": 5,
+    "refit_min": 60,
+    "tick_s": 10,
+    "sync_s": 15,
+    "scale_down_stabilisation_s": 300,
+    "tolerance": 0.1,
+    "hot_threshold_pct": 90.0,
+    "reference_machines": 22,
+    "window": [
+      "2018-01-01 23:55:00",
+      "2018-01-08 23:55:00"
+    ]
+  }
+}

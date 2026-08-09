@@ -1,0 +1,76 @@
+$ python scripts/sweep.py
+fitting the forecaster once (it does not depend on pod startup)...
+  refit 24/169
+  refit 48/169
+  refit 72/169
+  refit 96/169
+  refit 120/169
+  refit 144/169
+  refit 168/169
+
+=== pod startup sweep (flash crowd off) ===
+ startup  scenario      $/week  mean pods  hot min  sat min  dropped %  pods started
+    15s  static        208.32       31.0        0        0      0.000             0
+    15s  reactive      113.07       16.8        0        0      0.000          2225
+    15s  predictive    124.15       18.5        0        0      0.000           131
+    15s  hybrid        125.62       18.7        0        0      0.000           235
+    15s  hybrid_fast   126.91       18.9        0        0      0.000           527
+
+    60s  static        208.32       31.0        0        0      0.000             0
+    60s  reactive      113.07       16.8        0        0      0.000          2225
+    60s  predictive    124.15       18.5        0        0      0.000           131
+    60s  hybrid        125.62       18.7        0        0      0.000           235
+    60s  hybrid_fast   126.91       18.9        0        0      0.000           527
+
+   150s  static        208.32       31.0        0        0      0.000             0
+   150s  reactive      113.07       16.8        0        0      0.000          2225
+   150s  predictive    124.15       18.5        0        0      0.000           131
+   150s  hybrid        125.62       18.7        0        0      0.000           235
+   150s  hybrid_fast   126.91       18.9        0        0      0.000           527
+
+   300s  static        208.32       31.0        0        0      0.000             0
+   300s  reactive      113.07       16.8        4        0      0.000          2225
+   300s  predictive    124.15       18.5        0        0      0.000           131
+   300s  hybrid        125.62       18.7        0        0      0.000           235
+   300s  hybrid_fast   126.91       18.9        0        0      0.000           527
+
+   600s  static        208.32       31.0        0        0      0.000             0
+   600s  reactive      113.07       16.8       23        4      0.001          2225
+   600s  predictive    124.15       18.5        1        0      0.000           131
+   600s  hybrid        125.62       18.7        1        0      0.000           235
+   600s  hybrid_fast   126.91       18.9        1        0      0.000           527
+
+=== flash-crowd sweep (pod startup 60s, 20 min at 2018-01-05 14:00:00) ===
+ factor  scenario      $/week  hot min  sat min  dropped %  recovery
+    1.0  static        208.32        0        0      0.000      0.0m
+    1.0  reactive      113.07        0        0      0.000      0.0m
+    1.0  predictive    124.15        0        0      0.000      0.0m
+    1.0  hybrid        125.62        0        0      0.000      0.0m
+    1.0  hybrid_fast   126.91        0        0      0.000      0.0m
+
+flash crowd: x1.5 for 20 min from 2018-01-05 14:00:00 (120 ticks), peak now 82.9% fleet CPU
+    1.5  static        208.32        0        0      0.000      0.0m
+    1.5  reactive      113.32        2        0      0.000      0.0m
+    1.5  predictive    124.15        2        0      0.000      0.0m
+    1.5  hybrid        125.77        2        0      0.000      0.0m
+    1.5  hybrid_fast   127.17        0        0      0.000      0.0m
+
+flash crowd: x2.0 for 20 min from 2018-01-05 14:00:00 (120 ticks), peak now 110.5% fleet CPU
+    2.0  static        275.52        0        0      0.000      0.0m
+    2.0  reactive      113.44        2        2      0.012      2.0m
+    2.0  predictive    124.15       20       20      0.050     20.0m
+    2.0  hybrid        125.89        6        6      0.025      6.0m
+    2.0  hybrid_fast   127.28        2        2      0.007      2.0m
+
+flash crowd: x2.5 for 20 min from 2018-01-05 14:00:00 (120 ticks), peak now 138.2% fleet CPU
+    2.5  static        342.73        0        0      0.000      0.0m
+    2.5  reactive      113.55        2        2      0.024      2.0m
+    2.5  predictive    124.15       20       20      0.172     20.0m
+    2.5  hybrid        126.00        6        6      0.064      6.0m
+    2.5  hybrid_fast   127.39        2        2      0.020      2.0m
+
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\sweep_startup.png
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\sweep_flash.png
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\results\sweep.json
+[exit 0, 43.8s]
+

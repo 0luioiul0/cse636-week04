@@ -1,0 +1,62 @@
+$ python scripts/simulate.py --days 7
+window 2018-01-01 23:55:00 .. 2018-01-08 23:55:00  (7 days, 60,481 ticks of 10s)
+demand: mean 40.9% x 22 machines, peak 82.7%
+
+fitting the forecaster every 60 min (each fit sees only its own past)...
+  refit 24/169
+  refit 48/169
+  refit 72/169
+  refit 96/169
+  refit 120/169
+  refit 144/169
+  refit 168/169
+  169 models, 3,042 forecast points
+
+== static ==
+  replicas       mean 31.0  min 31  max 31
+  cost           $208.32  (5208 replica-hours @ $0.04/h)
+  utilisation    mean 29.0% per replica
+  risk           0 min above 90%, 0 min saturated, 0.000% of load dropped
+  churn          0 scaling actions, 0 pods started
+
+== reactive ==
+  replicas       mean 16.8  min 8  max 43
+  cost           $113.07  (2827 replica-hours @ $0.04/h)
+  utilisation    mean 55.2% per replica
+  risk           0 min above 90%, 0 min saturated, 0.000% of load dropped
+  churn          1979 scaling actions, 2225 pods started
+
+== predictive ==
+  replicas       mean 18.5  min 8  max 27
+  cost           $124.11  (3103 replica-hours @ $0.04/h)
+  utilisation    mean 48.8% per replica
+  risk           0 min above 90%, 0 min saturated, 0.000% of load dropped
+  churn          214 scaling actions, 129 pods started
+
+== hybrid ==
+  replicas       mean 18.7  min 8  max 30
+  cost           $125.63  (3141 replica-hours @ $0.04/h)
+  utilisation    mean 48.2% per replica
+  risk           0 min above 90%, 0 min saturated, 0.000% of load dropped
+  churn          337 scaling actions, 237 pods started
+  reactive floor fired on 221 of 2017 decisions
+
+== hybrid_fast ==
+  replicas       mean 18.9  min 8  max 35
+  cost           $126.96  (3174 replica-hours @ $0.04/h)
+  utilisation    mean 47.7% per replica
+  risk           0 min above 90%, 0 min saturated, 0.000% of load dropped
+  churn          979 scaling actions, 541 pods started
+  reactive floor fired on 3243 of 30241 decisions
+
+scenario        $/week  vs static  mean pods  hot min  dropped %
+static          208.32      +0.0%       31.0        0      0.000
+reactive        113.07     -45.7%       16.8        0      0.000
+predictive      124.11     -40.4%       18.5        0      0.000
+hybrid          125.63     -39.7%       18.7        0      0.000
+hybrid_fast     126.96     -39.1%       18.9        0      0.000
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\figures\simulation_replicas.png
+
+wrote C:\Users\zhang\OneDrive\Desktop\cse636-week04\results\simulation.json
+[exit 0, 39.5s]
+
