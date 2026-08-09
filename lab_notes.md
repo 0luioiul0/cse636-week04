@@ -158,8 +158,9 @@ has to be as fast as the thing it is catching.
 **Three more things I would do in production:**
 
 1. **Quantise the decision.** Twelve identical runs of the same fit produce a
-   bit-identical `yhat` but a `yhat_upper` that ranges over 0.91 points, which
-   flips the recommendation between **17 and 18 replicas**
+   bit-identical `yhat` but a `yhat_upper` that ranges over several tenths of a
+   point (roughly 0.5-1.0 across the batches I ran), which flips the recommendation
+   between **17 and 18 replicas**
    ([`evidence/04-reproducibility.txt`](evidence/04-reproducibility.txt)).
    `yhat_upper` is a Monte-Carlo estimate from 1000 unseeded draws. Acting only
    on a change of ≥2 replicas costs nothing and stops the autoscaler churning a

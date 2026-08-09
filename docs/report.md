@@ -2,7 +2,7 @@
 
 **Chi Zhang · CSE636 DevOps · Week 4 assignment**
 
-Code, data and every transcript quoted below: <https://github.com/PLACEHOLDER_REPO>
+Code, data and every transcript quoted below: <https://github.com/0luioiul0/cse636-week04>
 
 ## 1. Executive summary
 
@@ -59,34 +59,28 @@ my first simulator got it wrong and produced 60-replica overshoots that real
 Kubernetes does not.)
 
 The limitation is that every term in that formula is about the past. The lag
-between load arriving and capacity serving it is a sum of four independent
-delays:
-
-- **metric age.** metrics-server scrapes kubelets on its own timer (15 s by
-  default) and the kubelet's own accounting is not instantaneous, so the value
-  the HPA reads is typically 15–60 seconds old.
-- **sync period.** up to another 15 seconds before the controller looks.
-- **stabilisation and tolerance.** by design, not a bug: the controller is
-  built to be slow to react, because a controller that is fast to react
-  oscillates.
-- **pod readiness.** scheduling, image pull, process start, readiness probe.
-  Seconds for a static binary; 30–90 seconds for a typical JVM service; minutes
-  for anything that loads a model or warms a cache.
+between load arriving and capacity serving it is a sum of four delays:
+**metric age** (metrics-server scrapes kubelets on a 15-second timer and the
+kubelet's own accounting is not instantaneous, so the value read is typically
+15–60 s old); **sync period** (up to another 15 s); **stabilisation and
+tolerance** (by design — a controller that is fast to react oscillates); and
+**pod readiness** — scheduling, image pull, process start, probe. Seconds for a
+static binary, 30–90 s for a typical JVM service, minutes for anything that
+loads a model or warms a cache.
 
 Only the last term varies by orders of magnitude between workloads, and it is
 the one that decides whether the lag matters. The harm is worst in exactly the
-two cases the lecture names. On a **sharp spike**, the whole lag budget is spent
-while the service is already saturated; the HPA is not late by its sync period,
-it is late by sync period *plus* startup. On a **slow-starting container**, the
-HPA makes the correct decision and the correct decision arrives after the event
-it was for.
+two cases the lecture names. On a **sharp spike** the whole lag budget is spent
+while the service is already saturated: the HPA is not late by its sync period,
+it is late by sync period *plus* startup. On a **slow-starting container** the
+HPA makes the correct decision and it arrives after the event it was for.
 
-A predictive approach attacks only the last term, and it does so by moving the
-decision earlier rather than by making the loop faster. If at 06:00 you already
-know that 06:30 needs 26 replicas, the pods can be started at 06:00 and be ready
-before the load arrives. Everything else about the controller stays the same —
-which is why the sane deployment shape is a forecast *feeding* an HPA (through
-KEDA or a custom metric), not a forecast *replacing* one.
+A predictive approach attacks only the last term, and by moving the decision
+earlier rather than making the loop faster. If at 06:00 you already know that
+06:30 needs 26 replicas, the pods can start at 06:00 and be ready before the
+load. Everything else about the controller stays the same — which is why the
+sane deployment shape is a forecast *feeding* an HPA (through KEDA or a custom
+metric), not a forecast *replacing* one.
 
 ## 3. The forecasting experiment
 
@@ -102,20 +96,20 @@ keeps the first 24 machine ids it encounters and closes the connection —
 **2 MB of transfer** for eight days of 24 machines.
 
 **Shape.** Each machine reports roughly once a minute; I resampled each onto a
-5-minute grid and averaged the **22** serving machines (two of the 24 sit at ~5%
-CPU throughout and are a different workload class). Averaging is not cosmetic:
-an HPA compares the *mean* utilisation across a Deployment's Pods to its target,
-so the fleet mean is the signal the controller actually sees. Result: **2 304
-five-minute buckets over 8.00 days**, mean CPU **40.4%**, range **16.5–82.7%**.
+5-minute grid and averaged the **22** serving machines (two of the 24 idle at
+~5% CPU throughout and are a different workload class). Averaging is not
+cosmetic: an HPA compares the *mean* utilisation across a Deployment's Pods to
+its target. Result: **2 304 five-minute buckets over 8.00 days**, mean CPU
+**40.4%**, range **16.5–82.7%**.
 
 **What exploration showed.** A strong daily cycle — autocorrelation **+0.68** at
 the 24-hour lag, busiest hour averaging 61% against 30% at the quietest — with a
 **sharp morning ramp** rather than a smooth sine. Single 5-minute buckets reach
 82.7% while the surrounding hour sits near 50%. And a real data-quality problem:
 a **5.2-hour window on 2018-01-02 in which not one of the 22 machines reported**.
-Memory sits at ~90% and barely moves; on these machines it carries no scaling
-signal at all, which is a useful reminder that "scale on CPU and memory" is
-advice, not a law.
+Memory sits at ~90% and barely moves, so on these machines it carries no scaling
+signal at all — a useful reminder that "scale on CPU and memory" is advice, not
+a law.
 
 ![Eight days of fleet-mean CPU and memory. The grey band is the 5.2-hour outage; the dotted line marks the start of the held-out day.](../figures/metrics_overview.png)
 
@@ -195,23 +189,24 @@ coverage rising from 60% to 71%. Prophet contributes the *shape* of the day;
 something else has to contribute the *level*.
 
 **Would ARIMA have been the better choice?** On point accuracy at this horizon,
-yes — marginally, and it won without any seasonal term at all, which tells you
-that at a 30-minute horizon most of the signal is short-range autocorrelation
-rather than daily shape. But three things kept me on Prophet. A *seasonal* ARIMA
-would need m = 288 at 5-minute resolution, which `statsmodels` will not fit in
-usable time, so the daily structure that makes 30-minutes-ahead scaling possible
-at all is unavailable in the model that won. ARIMA needs a regularly spaced
-series and would have to be handed interpolated values across that 5.2-hour
-outage and then treat them as real, whereas Prophet regresses on time and simply
-has no observation there. And two of my 49 ARIMA fits failed to converge. The
-honest summary: **Prophet for the daily shape, an AR/level term for the last
-half hour, and neither one alone.**
+marginally yes — and it won *without any seasonal term*, which tells you that at
+30 minutes most of the signal is short-range autocorrelation rather than daily
+shape. Three things kept me on Prophet. A *seasonal* ARIMA would need m = 288 at
+5-minute resolution, which `statsmodels` will not fit in usable time, so the
+daily structure that makes 30-minutes-ahead scaling possible at all is
+unavailable in the model that won. ARIMA needs a regularly spaced series and
+would have to be handed interpolated values across the 5.2-hour outage and treat
+them as real, whereas Prophet regresses on time and simply has no observation
+there. And two of the 49 ARIMA fits failed to converge. The honest summary:
+**Prophet for the daily shape, an AR/level term for the last half hour, and
+neither one alone.**
 
 ### 3.4 A repeatability problem worth knowing about
 
 Twelve identical runs of the same fit on the same data produce a bit-identical
-`yhat` (spread 0.000) but a `yhat_upper` spread over **0.91 percentage points** —
-enough to flip the recommendation between **17 and 18 replicas**. `yhat_upper` is
+`yhat` (spread 0.000) but a `yhat_upper` that moves by several tenths of a point
+(roughly 0.5-1.0 pp across the batches I ran) — enough to flip the recommendation
+between **17 and 18 replicas**. `yhat_upper` is
 a Monte-Carlo estimate from 1 000 unseeded trajectories, and it is the number
 the scaling rule actually consumes. An autoscaler wired straight to it would
 start and stop a pod because of a random number. Raise `uncertainty_samples`,
@@ -277,15 +272,14 @@ controller degrades quickly while the predictive ones do not. That is the
 condition, stated quantitatively, and it is a property of the *deployment*, not
 of the workload's predictability.
 
-**Real-world caveats.** This is one workload, one week, one price. Savings scale
-with peak-to-trough ratio: this trace runs 16–83%, roughly 5×, which is a
-moderately spiky web-service shape. A flatter workload makes every autoscaler
-look worse and static look better; a spikier one the reverse. The simulation
-also assumes replicas are interchangeable and load divides evenly across them,
-which no real service quite manages. And it charges nothing for the forecasting
-pipeline itself — the exporter, the retraining, the Prometheus series, and the
-engineer who owns them. At $14/week of difference, roughly one hour of that
-engineer's time per month erases the entire cost advantage in either direction.
+**Real-world caveats.** One workload, one week, one price. Savings scale with
+the peak-to-trough ratio: this trace runs 16–83%, roughly 5×, a moderately spiky
+web-service shape — a flatter workload makes every autoscaler look worse, a
+spikier one the reverse. The simulation assumes replicas are interchangeable and
+load divides evenly, which no real service quite manages. And it charges nothing
+for the forecasting pipeline itself — exporter, retraining, Prometheus series,
+and the engineer who owns them. At $14/week of difference, about one hour of
+that engineer's time per month erases the cost gap in either direction.
 
 ## 5. Limitations and failure modes
 
@@ -311,29 +305,25 @@ groups both keep a reactive policy underneath and restrict the predictive
 component to *adding* capacity.
 
 **Model drift.** The trend term extrapolates whatever slope the last few days
-had (+13.7 points here, from 8 days). A deployment, a marketing campaign or a
-retired feature changes the level, and the model keeps predicting the old one
-until it is refitted. Mitigations: refit on a schedule (hourly here), cap
+had (+13.7 points here, from 8 days). A deployment, a campaign or a retired
+feature changes the level and the model keeps predicting the old one until it is
+refitted. Mitigations: refit on a schedule (hourly here), cap
 `changepoint_prior_scale`, and — most importantly — **alert on the residual**.
-If observed CPU runs 20% above the forecast for 15 minutes, the floor is
-carrying the service and nobody knows.
 
-**Silent staleness.** The failure that actually bites in production is not a
-crashed exporter, it is a live one serving a number from a model nobody has
-refitted. A stale metric looks exactly like a healthy metric. Hence the
-`forecast_model_age_seconds` gauge and the alert on it.
+**Silent staleness.** The failure that actually bites is not a crashed exporter
+but a live one serving a number from a model nobody has refitted: a stale metric
+looks exactly like a healthy one. Hence the `forecast_model_age_seconds` gauge
+and the alert on it.
 
 **Cold starts and the horizon.** A 30-minute horizon is only useful if pods
-become ready in less than 30 minutes. If startup approaches the horizon the
+become ready in well under 30 minutes; as startup approaches the horizon the
 forecast has to be lengthened, and error grows with horizon.
 
 **Metric artefacts.** A saturated pod reports 100%, not 140% — the overload is
 invisible to both controllers. Any autoscaler keyed to CPU alone under-reacts
-exactly when it matters most; request latency or queue depth is the better
-trigger, with CPU as the cheap proxy.
-
-**Nondeterminism.** Covered in §3.4: the interval that the whole scale-up rule
-rests on wobbles by ~1 point between identical runs.
+exactly when it matters most; latency or queue depth is the better trigger, with
+CPU as the cheap proxy. And per §3.4, the interval the whole scale-up rule rests
+on wobbles by about a point between identical runs.
 
 ## 6. Recommendations
 
