@@ -48,7 +48,7 @@ synthetic number would overstate the method by half.
 function of the clock, not of what CPU is doing now, so a fleet that sits above
 its seasonal curve for an hour stays under-forecast. Adding back the mean
 residual of the last 30 minutes — six lines — takes MAE from 5.70 to 4.90 and
-peak coverage from 60% to 71%.
+peak coverage from 60% to 73%.
 
 **4. Predictive autoscaling cost 12% more than reactive HPA and bought no
 measurable risk reduction at 60-second pod startup.** Seven days of the trace

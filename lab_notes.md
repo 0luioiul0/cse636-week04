@@ -28,8 +28,8 @@ comparison between the two turned out to be the most useful thing in the lab.
 |---|---|---|---|
 | **24 h ahead, one fit** (the handout's protocol) | 6.33 | **15.0%** | 63.7% |
 | **30 min ahead, refit at each origin** (what an autoscaler does) | 5.70 | **12.7%** | 60% of peaks |
-| same, level-adjusted (see below) | 4.90 | 11.1% | 71% of peaks |
-| *the handout's synthetic data, 24 h ahead* | *2.45* | *8.7%* | *75.4%* |
+| same, level-adjusted (see below) | 4.90 | 11.1% | 73% of peaks |
+| *the handout's synthetic data, 24 h ahead* | *2.45* | *8.7%* | *75.8%* |
 
 **Good enough to size a fleet; not good enough to trust on its own.** Three
 reasons, in increasing order of how much they worry me.
@@ -47,7 +47,7 @@ dashboard.
 estimate. On the held-out day that interval contained only **63.7%** of the
 actual points, and 8.3% of them landed *above* the upper bound. Rolling it
 forward 30 minutes at a time, `max(yhat_upper)` covered the actual 30-minute peak
-in **60% of 48 decisions**, with a mean shortfall of 6.9 points when it missed.
+in **60% of 48 decisions**, with a mean shortfall of 7.0 points when it missed.
 A margin that is wrong 40% of the time is a margin you have to plan around, not
 one you can lean on.
 
@@ -100,7 +100,7 @@ now. That is why plain Prophet at a 30-minute horizon (MAE 5.70) loses to a
 30-minute **moving average** (4.92), to **persistence** (5.41) and to an
 **ARIMA(2,1,2)** (4.64). Adding the mean residual of the last 30 minutes back
 onto the curve — six lines of code, `prophet_level_adj` — takes it to 4.90 and
-lifts peak coverage from 60% to 71%. On the synthetic series the ranking flips
+lifts peak coverage from 60% to 73%. On the synthetic series the ranking flips
 and Prophet wins outright. The lesson is not "Prophet is bad"; it is that the
 seasonal shape and the current level are two different pieces of information and
 Prophet only carries one of them.
@@ -118,7 +118,7 @@ looks healthy, because it is a prediction and predictions do not have outages.
 
 **This is not hypothetical in this dataset.** The peak of the held-out day was
 **82.7% CPU**, and 30 minutes earlier the model's upper bound for that window was
-**60.7%** — a **22-point** shortfall on the single most important decision of
+**60.4%** — a **22-point** shortfall on the single most important decision of
 the day.
 
 **What I did about it.** [`scripts/scaling.py`](scripts/scaling.py) takes the

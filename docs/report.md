@@ -129,7 +129,7 @@ carved out of the training data**, never on the test day.
 |---|---|---|---|---|---|
 | Prophet, weekly on (selected) | 6.33 | **15.0%** | 7.81 | +2.51 | 63.7% |
 | Prophet, weekly off | 6.16 | 14.5% | 7.65 | +2.37 | 63.3% |
-| *same code, handout's synthetic data* | *2.45* | *8.7%* | *3.13* | *+0.99* | *75.4%* |
+| *same code, handout's synthetic data* | *2.45* | *8.7%* | *3.13* | *+0.99* | *75.8%* |
 
 ![Forecast against reality on the held-out day. Red dots are the 24 points that landed above the nominal 80% upper bound.](../figures/cpu_eval.png)
 
@@ -140,7 +140,8 @@ which is the part a capacity plan depends on.
 **Where it failed, and why.** Two distinct failures, visible in the figure.
 
 *The morning peak is rounded off.* Actual load hit **82.7%**; the model's point
-forecast for that bucket was ~62% and its upper bound ~70%. Prophet represents
+forecast for that bucket was **59.4%** and its upper bound **~67%** — the point
+forecast is short by 23 points on the single busiest bucket of the day. Prophet represents
 seasonality as a Fourier series, and a Fourier series with ten terms cannot
 produce a corner — it necessarily smooths the sharpest feature in the data,
 which is precisely the feature that decides whether you have enough capacity.
@@ -166,7 +167,7 @@ looks one short horizon ahead. I re-ran the evaluation the way the controller
 works — retrain at every 30-minute origin across the test day, forecast the next
 30 minutes — and scored four cheap baselines on exactly the same points.
 
-| method (30-min horizon, 1 728 scored points) | MAE (pp) — **real trace** | MAE (pp) — *synthetic* |
+| method (30-min horizon, 48 origins × 6 steps = 288 points each) | MAE (pp) — **real trace** | MAE (pp) — *synthetic* |
 |---|---|---|
 | ARIMA(2,1,2) on a trailing 24 h | **4.64** | 2.78 |
 | Prophet + level adjustment | 4.90 | 2.46 |
@@ -186,7 +187,7 @@ workload.
 The diagnosis is the missing autoregressive term, and the cheapest possible
 repair confirms it: add the mean residual of the last 30 minutes back onto the
 forecast (`prophet_level_adj`) and MAE falls from 5.70 to 4.90, with peak
-coverage rising from 60% to 71%. Prophet contributes the *shape* of the day;
+coverage rising from 60% to 73%. Prophet contributes the *shape* of the day;
 something else has to contribute the *level*.
 
 **Would ARIMA have been the better choice?** On point accuracy at this horizon,
