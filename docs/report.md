@@ -16,10 +16,11 @@ measured. On this workload the entire cost story is *autoscaling versus not
 autoscaling* — a 46% saving — and the forecast is a rounding error on top of it.
 
 What the forecast did buy is **stability and reaction time**, and those are
-measurable: the predictive controller started **541 pods over the week against
-the HPA's 2 225** — a quarter of the churn, because it moves on the shape of the
-day rather than on every noisy sample — and when pod startup time was raised to
-10 minutes it spent **1 minute** above 90% CPU where the HPA spent **23**.
+measurable: the configuration I end up recommending started **541 pods over the
+week against the HPA's 2 225** — a quarter of the churn, because it moves on the
+shape of the day rather than on every noisy sample; the pure forecast started
+only **129**. And when pod startup was raised to 10 minutes, the predictive
+controllers spent **1 minute** above 90% CPU where the HPA spent **23**.
 
 So the recommendation is conditional, and the condition is not "is the workload
 predictable". It is **"is reacting expensive?"** If pods become ready in seconds,
@@ -34,9 +35,9 @@ than the HPA it replaces on anything it did not predict.** Under an
 unforecastable flash crowd it dropped four times more load than plain reactive
 HPA and stayed wrong for the full 20 minutes, because nothing in its loop looks
 at reality. Adding a reactive floor — take the larger of what the forecast asks
-for and what the current reading asks for — closed the gap completely, at
-1% extra cost. Predictive autoscaling should be deployed as *a floor raiser on
-top of* reactive autoscaling, never as a replacement for it.
+for and what the current reading asks for — closed that gap completely for 2%
+extra cost. Predictive autoscaling should be deployed as *a floor raiser on top
+of* reactive autoscaling, never as a replacement for it.
 
 ## 2. Baseline: reactive HPA and where its lag comes from
 
